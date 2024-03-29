@@ -54,9 +54,10 @@
                         </td>
 
                         <td>
-                            <a th:href = "@{/delete-category/(id = ${category.id})}" class = "btn btn-warning">Deleted</a>
-                            <a th:href = "@{/enable-category/(id = ${category.id})}" class = "btn btn-primary">Enabled</a>
+                            <a th:if="${category.is_deleted()} == false" th:href="@{'/delete-category/' + ${category.id}}" class="btn btn-warning">Deleted</a>
+                            <a th:if="${category.is_deleted()} == true" th:href="@{'/enable-category/' + ${category.id}}" class="btn btn-primary">Enabled</a>
                         </td>
+
                     </tr>
                     </tbody>
                 </table>

@@ -64,8 +64,8 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @RequestMapping(value = "/delete-category", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String delete(Long id, RedirectAttributes attributes){
+    @RequestMapping(value = "/delete-category/{id}", method = {RequestMethod.GET, RequestMethod.PUT})
+    public String delete(@PathVariable("id") Long id, RedirectAttributes attributes){
         try{
             categoryService.deleteById(id);
             attributes.addFlashAttribute("success", "Deleted successfully");
@@ -76,8 +76,8 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @RequestMapping(value = "/enable-category", method = {RequestMethod.PUT, RequestMethod.GET})
-    public String enable(Long id, RedirectAttributes attributes){
+    @RequestMapping(value = "/enable-category/{id}", method = {RequestMethod.PUT, RequestMethod.GET})
+    public String enable(@PathVariable("id") Long id, RedirectAttributes attributes){
         try{
             categoryService.enableById(id);
             attributes.addFlashAttribute("success","Enabled successfully");
@@ -87,4 +87,5 @@ public class CategoryController {
         }
         return "redirect:/categories";
     }
+
 }
