@@ -1,13 +1,14 @@
 package com.ecommerce.library.service;
 
+import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Product;
 
 import java.util.List;
 
 public interface ProductService {
-    List<Product> findAll();
-    Product save(Product product);
-    Product update(Product product);
+    List<ProductDto> findAll();
+    Product save(ProductDto productDto);
+    Product update(ProductDto productDto);
     void deleteById(Long id);
     void enableById(Long id);
 }
