@@ -29,10 +29,16 @@
                     <div th:if = "${size == 0}">
                         <p> No product in shop</p>
                     </div>
+                    <div th:if = "${success}">
+                        <p th:text = "${success}"></p>
+                    </div>
+                    <div th:if = "${error}">
+                        <p th:text = "${error}"></p>
+                    </div>
                     <a class="btn btn-primary" th:href="@{/add-product}" >Add New Product</a>
                     <table class="table table-striped" th:if = "${size > 0}">
                         <thead>
-                        <tr th:each = "product : ${products}">
+                        <tr>
                             <th scope="col">Name</th>
                             <th scope="col">Category</th>
                             <th scope="col">Price</th>
@@ -44,15 +50,17 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
+                        <tr th:each = "product : ${product}">
                             <th scope="row" th:text = "${product.name}"></th>
                             <td th:text = "${product.category.name}"></td>
                             <td th:text = "${product.costPrice}"></td>
                             <td th:text = "${product.currentQuantity}"></td>
+                            <td><img src="" style="height:40px; width:40px;" th:src="@{'data:image/jpg; base64,'+${product.image}}"></td>
+                            <td><a class="btn btn-primary">Update</a></td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
-
                 </div>
             </div>
             <!-- End of Main Content -->
