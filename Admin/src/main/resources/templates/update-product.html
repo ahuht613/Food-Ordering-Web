@@ -26,7 +26,7 @@
                 <div class="container-fluid">
 
                     <!--Page Heading-->
-                    <form class="form-horizontal" th:action="@{/update-product}" method="post" enctype="multipart/form-data" th:object="${product}">
+                    <form class="form-horizontal" th:action="@{/update-product}" method="post" enctype="multipart/form-data" th:object="${productDto}">
                         <fieldset>
 
                             <!-- Form Name -->
@@ -78,6 +78,14 @@
                                 <label class="col-md-4 control-label" for="price">PRICE</label>
                                 <div class="col-md-4">
                                     <input id="price" th:field = "*{costPrice}" name="price" class="form-control input-md" required="" type="text">
+                                </div>
+                            </div>
+
+                            <!-- Text input-->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="price">SALE PRICE</label>
+                                <div class="col-md-4">
+                                    <input id="sale" th:field = "*{salePrice}" name="sale" class="form-control input-md" required="" type="text">
                                 </div>
                             </div>
 

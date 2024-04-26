@@ -60,9 +60,15 @@ public class ProductController {
     }
 
     @GetMapping("/update-product/{id}")
-    public String updateProductForm(@PathVariable("id") Long id, Model model){
+    public String updateProductForm(@PathVariable("id") Long id, Model model, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
         model.addAttribute("title", "Update products");
-        Product product = productService.getById(id);
+        List<Category> categories = categoryService.findAllByActivated();
+        ProductDto productDto = productService.getById(id);
+        model.addAttribute("categories", categories);
+        model.addAttribute("productDto", productDto);
         return "update-product";
     }
 }

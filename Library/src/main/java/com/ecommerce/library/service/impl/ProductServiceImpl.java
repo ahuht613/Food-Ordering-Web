@@ -107,7 +107,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto getByID(Long id) {
+    public ProductDto getById(Long id) {
         Product product = productRepository.getById(id);
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
