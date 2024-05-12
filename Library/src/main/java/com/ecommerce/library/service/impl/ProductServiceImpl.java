@@ -5,6 +5,7 @@ import com.ecommerce.library.model.Product;
 import com.ecommerce.library.repository.ProductRepository;
 import com.ecommerce.library.service.ProductService;
 import com.ecommerce.library.utils.ImageUpload;
+import org.eclipse.angus.mail.imap.SortTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -75,11 +76,9 @@ public class ProductServiceImpl implements ProductService {
                 product.setImage(product.getImage());
             }else{
                 if(imageUpload.checkExisted(imageProduct) == false){
-                    System.out.println("Upload to folder");
 //                    imageUpload.uploadImage(imageProduct);
 
                 }
-                System.out.println("Image existed");
                 product.setImage(Base64.getEncoder().encodeToString(imageProduct.getBytes()));
             }
             product.setName(productDto.getName());
@@ -88,22 +87,28 @@ public class ProductServiceImpl implements ProductService {
             product.setCostPrice(productDto.getCostPrice());
             product.setCurrent_Quantity(productDto.getCurrentQuantity());
             product.setCategory(productDto.getCategory());
-            return product;
-//            return productRepository.save(product);
+            return productRepository.save(product);
         }catch(Exception e){
             e.printStackTrace();
+            return null;
+
         }
-        return null;
     }
 
     @Override
     public void deleteById(Long id) {
-
+        Product product = productRepository.getById(id);
+        product.set_deleted(true);
+        product.set_activated(false);
+        productRepository.save(product);
     }
 
     @Override
     public void enableById(Long id) {
-
+        Product product = productRepository.getById(id);
+        product.set_activated(true);
+        product.set_deleted(false);
+        productRepository.save(product);
     }
 
     @Override
