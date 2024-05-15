@@ -6,6 +6,7 @@ import com.ecommerce.library.model.Product;
 import com.ecommerce.library.service.CategoryService;
 import com.ecommerce.library.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,20 @@ public class ProductController {
         model.addAttribute("title", "Manager Product");
         model.addAttribute("product", productDtoList);
         model.addAttribute("size", productDtoList.size());
+        return "products";
+    }
+
+    @GetMapping("/products/{pageNo}")
+    public String productsPage(@PathVariable("pageNo") int pageNo, Model model, Principal principal){
+        if(principal == null){
+            return "redirect:/login";
+        }
+        Page<Product> products = productService.pageProducts(pageNo);
+        model.addAttribute("title","Manager Product");
+        model.addAttribute("size", products.getSize());
+        model.addAttribute("totalPages", products.getTotalPages());
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("products", products);
         return "products";
     }
 
