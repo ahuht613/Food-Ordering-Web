@@ -8,6 +8,7 @@ import com.ecommerce.library.utils.ImageUpload;
 import org.eclipse.angus.mail.imap.SortTerm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,22 +27,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> findAll() {
-        List<ProductDto> productDtoList = new ArrayList<>();
         List<Product> products = productRepository.findAll();
-        for (Product product : products) {
-            ProductDto productDto = new ProductDto();
-            productDto.setId(product.getId());
-            productDto.setName(product.getName());
-            productDto.setDescription(product.getDescription());
-            productDto.setCostPrice(product.getCostPrice());
-            productDto.setSalePrice(product.getSalePrice());
-            productDto.setCurrentQuantity(product.getCurrent_Quantity());
-            productDto.setCategory(product.getCategory());
-            productDto.setImage(product.getImage());
-            productDto.setActivated(product.is_activated());
-            productDto.setDeleted(product.is_deleted());
-            productDtoList.add(productDto);
-        }
+        List<ProductDto> productDtoList = tranfer(products);
         return productDtoList;
     }
 
@@ -137,6 +124,41 @@ public class ProductServiceImpl implements ProductService {
         Pageable pageable = PageRequest.of(pageNo, 5);
         Page<Product> productPages = productRepository.pageProduct(pageable);
         return productPages;
+    }
 
+    private Page toPage(List<ProductDto> list, Pageable pageable){
+        if(pageable.getOffset() >= list.size()){
+            return Page.empty();
+        }
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = ((pageable.getOffset() + pageable.getPageSize() > list.size())) ? list.size() : (int) (pageable.getOffset() + pageable.getPageSize());
+        List subList = list.subList(startIndex, endIndex);
+        return new PageImpl(subList, pageable, list.size());
+    }
+
+    @Override
+    public Page<Product> searchProducts(int pageNo, String keyword) {
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        Page<Product> products = productRepository.searchProducts(keyword, pageable);
+        return products;
+    }
+
+    private List<ProductDto> tranfer(List<Product> products){
+        List<ProductDto> productDtoList = new ArrayList<>();
+        for (Product product : products) {
+            ProductDto productDto = new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setDescription(product.getDescription());
+            productDto.setCostPrice(product.getCostPrice());
+            productDto.setSalePrice(product.getSalePrice());
+            productDto.setCategory(product.getCategory());
+            productDto.setImage(product.getImage());
+            productDto.setActivated(product.is_activated());
+            productDto.setDeleted(product.is_deleted());
+            productDto.setCurrentQuantity(product.getCurrent_Quantity());
+            productDtoList.add(productDto);
+        }
+        return productDtoList;
     }
 }
