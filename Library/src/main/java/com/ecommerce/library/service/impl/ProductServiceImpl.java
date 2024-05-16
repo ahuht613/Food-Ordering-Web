@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productRepository.findAll();
-        List<ProductDto> productDtoList = tranfer(products);
+        List<ProductDto> productDtoList = transfer(products);
         return productDtoList;
     }
 
@@ -120,10 +120,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> pageProducts(int pageNo) {
+    public Page<ProductDto> pageProducts(int pageNo) {
         Pageable pageable = PageRequest.of(pageNo, 5);
-        Page<Product> productPages = productRepository.pageProduct(pageable);
+        List<ProductDto> products = transfer(productRepository.findAll());
+        Page<ProductDto> productPages = toPage(products, pageable);
         return productPages;
+    }
+
+
+    @Override
+    public Page<ProductDto> searchProducts(int pageNo, String keyword) {
+        Pageable pageable = PageRequest.of(pageNo, 5);
+        List<ProductDto> productDtoList = transfer(productRepository.searchProductsList(keyword));
+        Page<ProductDto> products = toPage(productDtoList, pageable);
+        return products;
     }
 
     private Page toPage(List<ProductDto> list, Pageable pageable){
@@ -136,14 +146,7 @@ public class ProductServiceImpl implements ProductService {
         return new PageImpl(subList, pageable, list.size());
     }
 
-    @Override
-    public Page<Product> searchProducts(int pageNo, String keyword) {
-        Pageable pageable = PageRequest.of(pageNo, 5);
-        Page<Product> products = productRepository.searchProducts(keyword, pageable);
-        return products;
-    }
-
-    private List<ProductDto> tranfer(List<Product> products){
+    private List<ProductDto> transfer(List<Product> products){
         List<ProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
             ProductDto productDto = new ProductDto();
