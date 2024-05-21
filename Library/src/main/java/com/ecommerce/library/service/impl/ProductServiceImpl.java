@@ -25,6 +25,7 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ImageUpload imageUpload;
 
+//  Admin
     @Override
     public List<ProductDto> findAll() {
         List<Product> products = productRepository.findAll();
@@ -136,8 +137,9 @@ public class ProductServiceImpl implements ProductService {
         return products;
     }
 
-    private Page toPage(List<ProductDto> list, Pageable pageable){
-        if(pageable.getOffset() >= list.size()){
+
+    private Page toPage(List<ProductDto> list, Pageable pageable) {
+        if (pageable.getOffset() >= list.size()) {
             return Page.empty();
         }
         int startIndex = (int) pageable.getOffset();
@@ -146,7 +148,7 @@ public class ProductServiceImpl implements ProductService {
         return new PageImpl(subList, pageable, list.size());
     }
 
-    private List<ProductDto> transfer(List<Product> products){
+    private List<ProductDto> transfer(List<Product> products) {
         List<ProductDto> productDtoList = new ArrayList<>();
         for (Product product : products) {
             ProductDto productDto = new ProductDto();
@@ -163,5 +165,21 @@ public class ProductServiceImpl implements ProductService {
             productDtoList.add(productDto);
         }
         return productDtoList;
+    }
+
+    //    Customer
+    @Override
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts();
+    }
+
+    @Override
+    public List<Product> listViewProducts() {
+        return productRepository.listViewProducts();
+    }
+
+    @Override
+    public Product getProductById(Long id) {
+        return productRepository.getById(id);
     }
 }
