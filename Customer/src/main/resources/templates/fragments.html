@@ -109,7 +109,7 @@
                         <ul class="dropdown-menu">
                             <li><a th:href="@{/products}">Shop Detail</a></li>
                             <li><a href="product-detail.html">Product Detail</a></li>
-                            <li><a href="cart.html">Cart</a></li>
+                            <li><a th:href="@{/cart}">Cart</a></li>
                             <li><a href="checkout.html">Checkout</a></li>
                             <li><a href="my-account.html">My Account</a></li>
                         </ul>
@@ -124,7 +124,7 @@
                 <ul>
                     <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                     <li class="side-menu">
-                        <a href="#" th:href="@{/cart}">
+                        <a th:href="@{/cart}">
                             <i class="fa fa-shopping-bag"></i>
                             <span class="badge"
                                   th:text="${session.totalItems == null} ? '0' : ${session.totalItems}"></span>
