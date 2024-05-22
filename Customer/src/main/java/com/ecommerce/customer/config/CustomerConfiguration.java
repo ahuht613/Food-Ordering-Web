@@ -46,7 +46,9 @@ public class CustomerConfiguration {
                 .authorizeHttpRequests( author ->
                         author.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/*", "/product-detail/**").permitAll()
-                                .requestMatchers("/shop/**", "/find-products/**").hasAuthority("CUSTOMER")
+                                .requestMatchers("/shop/**", "/find-product/**").permitAll()
+                                .requestMatchers("/*", "/products-in-category/**").permitAll()
+                                .requestMatchers("/do-login").permitAll()
                 )
                 .formLogin(login ->
                         login.loginPage("/login")
@@ -69,11 +71,11 @@ public class CustomerConfiguration {
         return http.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) ->
-                web.ignoring()
-                        .requestMatchers("/js/**", "/css/**");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) ->
+//                web.ignoring()
+//                        .requestMatchers("/js/**", "/css/**");
+//    }
 
 }

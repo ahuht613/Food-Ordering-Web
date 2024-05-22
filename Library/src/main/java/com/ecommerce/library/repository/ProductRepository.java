@@ -1,5 +1,6 @@
 package com.ecommerce.library.repository;
 
+import com.ecommerce.library.dto.ProductDto;
 import com.ecommerce.library.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,5 +32,19 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query(value = "select p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted from products p where p.is_deleted = false and p.is_activated = true limit 4", nativeQuery = true)
     List<Product> listViewProducts();
 
+    @Query("select p from Product p inner join Category c on c.id = p.category.id where p.category.id = ?1")
+    List<Product> getRelatedProducts(Long categoryId);
 
+    @Query(value = "select p from Product p inner join Category c on c.id = p.category.id where c.id = ?1 and p.is_activated = true and p.is_deleted = false")
+    List<Product> getProductsInCategory(Long categoryId);
+
+    @Query(value = "select " +
+            "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
+            "from products p where p.is_deleted = false and p.is_activated = true order by p.cost_price desc limit 9", nativeQuery = true)
+    List<Product> filterHighProducts();
+
+    @Query(value = "select " +
+            "p.product_id, p.name, p.description, p.current_quantity, p.cost_price, p.category_id, p.sale_price, p.image, p.is_activated, p.is_deleted " +
+            "from products p where p.is_deleted = false and p.is_activated = true order by p.cost_price asc limit 9", nativeQuery = true)
+    List<Product> filterLowProducts();
 }

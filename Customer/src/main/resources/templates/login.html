@@ -49,17 +49,22 @@
         <div class="noi-dung">
             <div class="form">
                 <h2>Log In</h2>
-                <form action="">
+                <div th:if = "${param.error}" class="text-center alert alert-warning">
+                    <p>Invalid username or password</p>
+                </div>
+
+                <div th:if = "${param.logout}" class="text-center alert alert-success">
+                    <p>You have been logged out</p>
+                </div>
+
+                <form th:action="@{/do-login}" method="post">
                     <div class="input-form">
                         <!-- <span>User name</span> -->
-                        <input type="text" placeholder="Name" name="">
+                        <input type="text" placeholder="Name" name="username">
                     </div>
                     <div class="input-form">
                         <!-- <span>Password</span> -->
-                        <input type="password" placeholder="Password" name="">
-                    </div>
-                    <div class="Remember-me">
-                        <label><input type="checkbox" name=""> Remember Me </label>
+                        <input type="password" placeholder="Password" name="password">
                     </div>
                     <div class="input-form">
                         <input type="submit" value="Log In">
@@ -85,8 +90,11 @@
     </div>
     <!-- End All Title Box -->
 
-
-    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; 2024 <a href="#">HQ Food</a> Design By: ThuHa</a></p>
+    </div>
+    <!-- End copyright  -->
 
     <!-- ALL JS FILES -->
     <div th:replace="fragments :: script"></div>
