@@ -48,6 +48,7 @@ public class CustomerConfiguration {
                                 .requestMatchers("/*", "/product-detail/**").permitAll()
                                 .requestMatchers("/shop/**", "/find-product/**").permitAll()
                                 .requestMatchers("/*", "/products-in-category/**").permitAll()
+                                .requestMatchers("/*", "/shop/cart").hasAuthority("CUSTOMER")
                                 .requestMatchers("/do-login").permitAll()
                 )
                 .formLogin(login ->
