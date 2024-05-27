@@ -47,10 +47,10 @@
                     </thead>
                     <tbody>
                     <tr th:each="category : ${categories}">
-                        <th scope="row" th:text="${category.id}"></th>
+                        <th scope="row" th:text="${category.id}" disabled></th>
                         <td th:text="${category.name}"></td>
                         <td>
-                            <a id="editButton" class="btn btn-primary" th:href="@{/findById/(id=${category.id})}">Update</a>
+                            <a id="editButton" class="btn btn-primary" th:href="@{/findById/{id} (id=${category.id})}">Update</a>
                         </td>
 
                         <td>

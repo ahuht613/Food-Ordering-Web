@@ -39,8 +39,11 @@ public class CartController {
             model.addAttribute("check", "No item in your cart");
 
         }
+        double subTotal = shoppingCart.getTotalPrice();
+        session.setAttribute("subTotal", subTotal);
+
         session.setAttribute("totalItems", shoppingCart.getTotalItems());
-        model.addAttribute("subTotal", shoppingCart.getTotalPrice());
+        model.addAttribute("subTotal", subTotal);
         model.addAttribute("shoppingCart", shoppingCart);
         return "cart";
     }

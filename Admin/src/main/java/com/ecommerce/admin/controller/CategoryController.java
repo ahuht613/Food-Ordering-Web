@@ -43,11 +43,12 @@ public class CategoryController {
         return "redirect:/categories";
     }
 
-    @RequestMapping(value = "/findById", method = {RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/findById/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Category findById(Long id){
+    public Category findById(@PathVariable Long id){
         return categoryService.findById(id);
     }
+
 
     @GetMapping("/update-category")
     public String update(Category category, RedirectAttributes attributes){
